@@ -62,7 +62,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_KEY,
 });
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }))
+app.use(cors({ origin: "http://localhost:5173", credentials: true }))
 app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser())
