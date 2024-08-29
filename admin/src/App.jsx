@@ -45,7 +45,7 @@ function App() {
   useEffect(() => {
 
     dispatch(currentUser()).then((state) => {
-      if (!state.payload.user && !user) {
+      if (!state.payload.currentUser && !user) {
         navigate('/login')
       }
     })
@@ -63,8 +63,7 @@ function App() {
   return (
     <>
       <Routes>
-      <Route element={<Main />} path='*' /> 
-          <Route element={<Login />} path='/login' />        
+         <Route element={<Main />} path='/' /> :   <Route element={<Login />} path='/login' />  
       </Routes>
       <Toaster />
     </>
