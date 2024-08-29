@@ -31,16 +31,17 @@ const Main = () => {
     // }, [])
 
     return (
-        <div className='px-12 h-full w-full  mb-8'>
-            <Header />
-           {/* <Sidebar/> */}
-            {/* <Routes>
+        <div className='h-full w-full'>
+           <Sidebar>
+           <Header />
+        {/* <Routes>
                 <Route element={<Dashboard />} path='/' />
                 <Route element={<Vehicle />} path='/vehicle/*' />
                 <Route element={<User />} path='/user/*' />
                 <Route element={<Place />} path='/place/*' />
                 <Route element={<Shipping />} path='/shipping/*' />
             </Routes> */}
+           </Sidebar>
         </div>
     )
 }

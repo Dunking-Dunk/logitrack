@@ -31,7 +31,7 @@ export default function Header({ props }) {
     }
 
     return (
-        <div className="w-full mb-5 border-b-2 border-primary-foreground">
+        <div className="w-full mb-5 px-6 border-b-2 border-primary-foreground">
             <div className="flex flex-row justify-between h-20 w-full ">
                 <nav
                     className={cn("flex items-center space-x-4 lg:space-x-10")}
