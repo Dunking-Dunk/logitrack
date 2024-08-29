@@ -6,6 +6,7 @@ export const login = createAsyncThunk('user/login', async (body, thunkAPI) => {
     try {
         const user = await api.post('/users/signin', body)
         const data = user.data;
+        console.log(data)
         return data;
     } catch (err) {
         if (err) {
@@ -28,6 +29,7 @@ export const currentUser = createAsyncThunk('user/currentUser', async (body, thu
     try {
         const user = await api.get('/users/me')
         const data = user.data;
+      
         return data;
     } catch (err) {
         if (err) {
@@ -140,7 +142,7 @@ const UserReducer = createSlice({
             state.loading = true
         })
         builder.addCase(currentUser.fulfilled, (state, action) => {
-            state.user = action.payload.user
+            state.user = action.payload.currentUser
             state.loading = false
         })
         builder.addCase(currentUser.rejected, (state, action) => {

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Header from '@/components/global/Header';
+import  Sidebar  from '@/components/global/sidebar/index';
 // import Dashboard from './Dashboard';
 // import Header from '../components/Header';
 // import { Routes, Route } from 'react-router-dom';
@@ -32,6 +33,7 @@ const Main = () => {
     return (
         <div className='px-12 h-full w-full  mb-8'>
             <Header />
+           {/* <Sidebar/> */}
             {/* <Routes>
                 <Route element={<Dashboard />} path='/' />
                 <Route element={<Vehicle />} path='/vehicle/*' />

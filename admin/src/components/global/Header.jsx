@@ -19,14 +19,14 @@ import {
 } from "@/components/ui/avatar"
 import NavigationLink from "./NavigationLink"
 import DarkBtn from './DarkMode'
-// import { logout } from '../store/reducer/UserReducer'
+import { logout } from '../../store/reducer/UserReducer'
 
 export default function Header({ props }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const onLogout = () => {
-        // dispatch(logout())
+        dispatch(logout())
         navigate('/login')
     }
 
