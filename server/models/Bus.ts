@@ -15,7 +15,8 @@ interface BusAttrs {
     stops_distance_time: [],
     seats: number,
     status: boolean,
-    ac: boolean
+    ac: boolean,
+    trackerId: string
 }
 export interface BusDoc extends mongoose.Document {
     busNumber: number,
@@ -31,7 +32,8 @@ export interface BusDoc extends mongoose.Document {
     stops_distance_time: [],
     seats: number,
     status: boolean,
-    ac: boolean
+    ac: boolean,
+    trackerId: string
 }
 
 interface BusModel extends mongoose.Model<BusDoc> {
@@ -78,6 +80,11 @@ export const Schema = new mongoose.Schema({
     },
     status: {
         type: Boolean
+    },
+    trackerId: {
+        type: String,
+        required: true,
+        unique: true
     },
     tracker: {
         type: mongoose.Schema.Types.ObjectId,

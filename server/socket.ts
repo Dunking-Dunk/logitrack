@@ -43,10 +43,10 @@ export const connection = () => {
 
     changeStreamTracker.on('change', (data: any) => {
         const fullDocument = data.fullDocument
-        if (data.operationType === 'update') {
-            const id = String(fullDocument._id)
-            io.to(id).emit("getBusLocation", { ...fullDocument, id: fullDocument._id });
-            io.to('allBus').emit('getAllBusLocation', { ...fullDocument, id: fullDocument._id })
+        if (data.operationType === 'insert') {
+            const id = String(fullDocument.trackerId)
+            io.to(id).emit("getBusLocation", { ...fullDocument });
+            io.to('allBus').emit('getAllBusLocation', { ...fullDocument })
         }
     })
     changeStreamStop.on('change', (data: any) => {

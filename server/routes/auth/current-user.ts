@@ -4,9 +4,9 @@ import { User } from "../../models/User";
 
 const router = express.Router();
 
-router.get('/api/users/me', currentUser, async(req: Request, res: Response) => {
+router.get('/api/users/currentuser', currentUser, async (req: Request, res: Response) => {
     const user = await User.findById(req.currentUser?.id)
-    res.send({currentUser: user|| null})
+    res.send({ currentUser: user || null })
 })
 
-export {router as currentUserRouter}
+export { router as currentUserRouter }

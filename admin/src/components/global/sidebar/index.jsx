@@ -1,115 +1,72 @@
-import React, { useState } from "react";
-import { Sidebar, SidebarBody, SidebarLink } from "../../ui/sidebar";
+import { Link } from "react-router-dom"
 import {
-  IconArrowLeft,
-  IconBrandTabler,
-  IconSettings,
-  IconUserBolt,
-} from "@tabler/icons-react";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-// import Image from "next/image";
-import { cn } from "@/lib/utils";
+  BusIcon,
+  Home,
+  LineChart,
+  Package,
+  Package2,
+  StopCircle,
+  ShoppingCart,
+  Users,
+} from "lucide-react"
+import NavigationLink from "../NavigationLink"
 
-function MainSidebar({children}) {
-  const links = [
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-      icon: (
-        <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
-    },
-    {
-      label: "Profile",
-      href: "#",
-      icon: (
-        <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
-    },
-    {
-      label: "Settings",
-      href: "#",
-      icon: (
-        <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
-    },
-    {
-      label: "Logout",
-      href: "#",
-      icon: (
-        <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
-    },
-  ];
-  const [open, setOpen] = useState(false);
+function Sidebar() {
+
   return (
-    <div
-      className={cn(
-        "rounded-md flex flex-col md:flex-row  w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
-        "h-screen" // for your use case, use `h-screen` instead of `h-[60vh]`
-      )}
-    >
-      <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-10">
-          <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-            {open ? <Logo /> : <LogoIcon />}
-            <div className="mt-8 flex flex-col gap-2">
-              {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} />
-              ))}
-            </div>
+    <div className="flex min-h-screen w-[280px] relative">
+      <div className="fixed inset-y-0 left-0 w-[243px] z-10 border-r bg-muted/40">
+        <div className="flex h-full max-h-screen flex-col gap-2">
+          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+            <NavigationLink href="" className="flex items-center gap-2 font-semibold">
+              <Package2 className="h-6 w-6" />
+              <span className="">UNFAZED</span>
+            </NavigationLink>
           </div>
-          <div>
-            <SidebarLink
-              link={{
-                label: "Manu Arora",
-                href: "#",
-                icon: (
-                  <img
-                    src="https://assets.aceternity.com/manu.png"
-                    className="h-7 w-7 flex-shrink-0 rounded-full"
-                    width={50}
-                    height={50}
-                    alt="Avatar"
-                  />
-                ),
-              }}
-            />
+          <div className="flex-1">
+            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+              <NavigationLink
+                href="/"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
+              >
+                <Home className="h-4 w-4" />
+                Dashboard
+              </NavigationLink>
+              <NavigationLink
+                href="/bus"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
+              >
+                <BusIcon className="h-4 w-4" />
+                Bus
+              </NavigationLink>
+              <NavigationLink
+                href="#"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-primary transition-all hover:text-primary"
+              >
+                <StopCircle className="h-4 w-4" />
+                Stops
+              </NavigationLink>
+              <NavigationLink
+                href="#"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
+              >
+                <Users className="h-4 w-4" />
+                Customers
+              </NavigationLink>
+              <NavigationLink
+                href="#"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
+              >
+                <LineChart className="h-4 w-4" />
+                Analytics
+              </NavigationLink>
+            </nav>
           </div>
-        </SidebarBody>
-      </Sidebar>
-      {children}
+        </div>
+      </div>
     </div>
-  );
+  )
 }
-export const Logo = () => {
-  return (
-    <Link
-      to="#"
-      className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
-    >
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="font-medium text-black dark:text-white whitespace-pre"
-      >
-        Acet Labs
-      </motion.span>
-    </Link>
-  );
-};
-export const LogoIcon = () => {
-  return (
-    <Link
-      to="#"
-      className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
-    >
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
-    </Link>
-  );
-};
- 
 
-export default MainSidebar
+
+export default Sidebar

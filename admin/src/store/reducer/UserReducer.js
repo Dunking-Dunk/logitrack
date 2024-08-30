@@ -4,9 +4,9 @@ import api from '../../api/axios'
 
 export const login = createAsyncThunk('user/login', async (body, thunkAPI) => {
     try {
+
         const user = await api.post('/users/signin', body)
         const data = user.data;
-        console.log(data)
         return data;
     } catch (err) {
         if (err) {
@@ -17,7 +17,7 @@ export const login = createAsyncThunk('user/login', async (body, thunkAPI) => {
 
 export const logout = createAsyncThunk('user/logout', async (body, thunkAPI) => {
     try {
-        await api.post('/users/logout')
+        await api.post('/users/signout')
     } catch (err) {
         if (err) {
             return thunkAPI.rejectWithValue({error: err.response.data})
@@ -27,9 +27,8 @@ export const logout = createAsyncThunk('user/logout', async (body, thunkAPI) => 
 
 export const currentUser = createAsyncThunk('user/currentUser', async (body, thunkAPI) => {
     try {
-        const user = await api.get('/users/me')
+        const user = await api.get('/users/currentuser')
         const data = user.data;
-      
         return data;
     } catch (err) {
         if (err) {

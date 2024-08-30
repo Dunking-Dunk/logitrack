@@ -19,7 +19,6 @@ import Login from './pages/auth/sign-in/index';
 import Main from './pages/Main';
 import Loader from './components/global/Loader'
 import { currentUser } from './store/reducer/UserReducer';
-import { Dashboard } from './pages/Dashboard';
 
 ChartJS.register(
   ArcElement,
@@ -36,7 +35,7 @@ function App() {
   const { user } = useSelector((state) => state.User)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-    // const notification = useNotification()
+  // const notification = useNotification()
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -44,9 +43,8 @@ function App() {
   })
 
   useEffect(() => {
-
     dispatch(currentUser()).then((state) => {
-      if (!state.payload.currentUser && !user) {
+      if (!state.payload?.currentUser && !user) {
         navigate('/login')
       }
     })
@@ -64,8 +62,8 @@ function App() {
   return (
     <>
       <Routes>
-         <Route element={<Main />} path='/' /> :   <Route element={<Login />} path='/login' />  
-         <Route element={<Dashboard />} path='/dashboard' /> :   <Route element={<Login />} path='/login' />  
+        <Route element={<Main />} path='*' />
+        <Route element={<Login />} path='/login' />
       </Routes>
       <Toaster />
     </>

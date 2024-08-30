@@ -1,9 +1,9 @@
-import Doughnut from '../components/dashboard/charts/Doughnut';
-import Scatter from '../components/dashboard/charts/Scatter'
-import LineChart from '../components/dashboard/charts/MultiAxis'
-import Bar from '../components/dashboard/charts/Bar'
-// import Map from '../components/dashboard/Map'
-import CardOverview from "../components/dashboard/OverviewCard"
+import Doughnut from '../components/charts/Doughnut';
+import Scatter from '../components/charts/Scatter'
+import LineChart from '../components/charts/MultiAxis'
+import Bar from '../components/charts/Bar'
+import Map from '@/components/map/Map';
+import CardOverview from "../components/global/OverviewCard"
 // import { BsBusFront } from 'react-icons/bs'
 // import { FaUsers } from 'react-icons/fa'
 // import { MdAttachMoney } from 'react-icons/md'
@@ -13,13 +13,13 @@ import CardOverview from "../components/dashboard/OverviewCard"
 // import { MdAttachMoney } from 'react-icons/md'
 // import { TbBusStop } from 'react-icons/tb'
 import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-  } from "@/components/ui/tabs"
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
 
-export const Dashboard = () => {
+const Dashboard = () => {
   return (
     <div className="w-full h-full">
       <div className="flex flex-col w-full h-full gap-y-4">
@@ -31,14 +31,14 @@ export const Dashboard = () => {
           </TabsList>
           <TabsContent value="overview" className="w-full h-full flex flex-col space-y-5" >
             <div className="w-full h-[700px]">
-              {/* <Map /> */}
+              <Map />
             </div>
             <div className="flex flex-row w-full h-full space-x-4">
-              <CardOverview title='Buses' value={45} description="Total number of buses in service"  />
-              <CardOverview title='Active' value={34} description="Total number of buses active now"  />
-              <CardOverview title='Not Active' value={34} description="Total in-active buses"  />
-              <CardOverview title='Total Stops' value={34} description="Total number of stops in the city"  />
-              <CardOverview title='Total Drivers' value={34} description="Total number of workforce"  />
+              <CardOverview title='Buses' value={45} description="Total number of buses in service" />
+              <CardOverview title='Active' value={34} description="Total number of buses active now" />
+              <CardOverview title='Not Active' value={34} description="Total in-active buses" />
+              <CardOverview title='Total Stops' value={34} description="Total number of stops in the city" />
+              <CardOverview title='Total Drivers' value={34} description="Total number of workforce" />
               {/* <CardOverview title='Buses' value={45} description="Total number of buses in service" Icon={<BsBusFront />} />
               <CardOverview title='Active' value={34} description="Total number of buses active now" Icon={<BsBusFront />} />
               <CardOverview title='Not Active' value={34} description="Total in-active buses" Icon={<BsBusFront />} />
@@ -54,9 +54,9 @@ export const Dashboard = () => {
                 </div>
                 <Scatter />
                 <div className="flex flex-wrap space-y-2">
-                  <CardOverview title='Fleet Event' value='122022' description="Total number of fleet of action in server"  />
-                  <CardOverview title='Total driving' value="2553510 Km" description="Total driving of all the fleets"  />
-                  <CardOverview title='Maintance Charge' value="60000 $" description="Total Money spend on maintance "  />
+                  <CardOverview title='Fleet Event' value='122022' description="Total number of fleet of action in server" />
+                  <CardOverview title='Total driving' value="2553510 Km" description="Total driving of all the fleets" />
+                  <CardOverview title='Maintance Charge' value="60000 $" description="Total Money spend on maintance " />
                   {/* <CardOverview title='Fleet Event' value='122022' description="Total number of fleet of action in server" Icon={<BsBusFront />} />
                   <CardOverview title='Total driving' value="2553510 Km" description="Total driving of all the fleets" Icon={<BsBusFront />} />
                   <CardOverview title='Maintance Charge' value="60000 $" description="Total Money spend on maintance " Icon={<MdAttachMoney />} /> */}
@@ -73,3 +73,5 @@ export const Dashboard = () => {
     </div>
   )
 }
+
+export default Dashboard

@@ -31,8 +31,8 @@ export default function Header({ props }) {
     }
 
     return (
-        <div className="w-full mb-5 px-6 border-b-2 border-primary-foreground">
-            <div className="flex flex-row justify-between h-20 w-full ">
+        <div className="sticky top-0 w-full mb-2 px-6 border-primary-foreground bg-muted/40">
+            <div className=" flex flex-row justify-between h-16 w-full">
                 <nav
                     className={cn("flex items-center space-x-4 lg:space-x-10")}
                     {...props}
@@ -41,8 +41,8 @@ export default function Header({ props }) {
                     <NavigationLink href='/shipping'>Shipment</NavigationLink>
                     <NavigationLink href="/vehicle">Vehicle</NavigationLink>
                     <NavigationLink href="/user">User</NavigationLink>
-                    <NavigationLink href='/place'>Place</NavigationLink> */}
-                    {/* <NavigationLink href='/announcement'>Announcement</NavigationLink>
+                    <NavigationLink href='/place'>Place</NavigationLink>
+                    <NavigationLink href='/announcement'>Announcement</NavigationLink>
                     <NavigationLink href='/notification'>Notifications</NavigationLink> */}
                 </nav>
                 <div className="flex items-center content-center flex-row  gap-x-6">

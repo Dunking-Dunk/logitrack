@@ -1,23 +1,47 @@
 import mongoose from 'mongoose';
-import { BusDoc } from './Bus';
-import { PointDoc } from './Point';
 
 interface TrackerAttrs {
-    bus: BusDoc,
-    coords?: PointDoc,
-    speed?: number,
-    gpsId: string,
-    onBusRoute: string,
-    onBusName: string,
+    speed: number,
+    location: {
+        type: string,
+        coordinate: number[]
+    },
+    fuelLevel: number,
+    engineStatus: boolean,
+    engineRpm: number,
+    engineTemp: number,
+    torque: number,
+    batteryLevel: number,
+    batteryVoltage: number,
+    wheelRpm: number,
+    co2emission: number,
+    coolantTemp: number,
+    transmissionTemp: number,
+    diagnosticCodes: string,
+    trackerId: string,
+    createdAt: string
 }
 
 interface TrackerDoc extends mongoose.Document {
-    bus: BusDoc,
-    coords?: PointDoc,
-    speed?: number,
-    gpsId: string,
-    onBusRoute: string,
-    onBusName: string,
+    speed: number,
+    location: {
+        type: string,
+        coordinate: number[]
+    },
+    fuelLevel: number,
+    engineStatus: boolean,
+    engineRpm: number,
+    engineTemp: number,
+    torque: number,
+    batteryLevel: number,
+    batteryVoltage: number,
+    wheelRpm: number,
+    co2emission: number,
+    coolantTemp: number,
+    transmissionTemp: number,
+    diagnosticCodes: string,
+    trackerId: string,
+    createdAt: string
 }
 
 interface TrackerModel extends mongoose.Model<TrackerDoc> {
@@ -29,24 +53,72 @@ const trackingSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    bus: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Bus'
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            default: 'Point'
+        },
+        coordinate: {
+            type: [Number],
+            required: true,
+        },
     },
-    coords: {
-        type: [Number],
-        default: [0, 0]
+    //all tcu data comes here
+    fuelLevel: {
+        type: Number,
+        default: 0
     },
-    onBusRoute: {
-        type: String,
+    engineStatus: {
+        type: Boolean,
+        default: false
     },
-    onBusName: {
-        type: String,
+    engineRpm: {
+        type: Number,
+        default: 0
     },
-    gpsId: {
+    engineTemp: {
+        type: Number,
+        default: 0
+    },
+    torque: {
+        type: Number,
+        default: 0
+    },
+    batteryLevel: {
+        type: Number,
+        default: 0
+    },
+    batteryVoltage: {
+        type: Number,
+        default: 0,
+    },
+    wheelRpm: {
+        type: Number,
+        default: 0
+    },
+    co2emission: {
+        type: Number,
+        default: 0
+    },
+    coolantTemp: {
+        type: Number,
+        default: 0
+    },
+    transmissionTemp: {
+        type: Number,
+        default: 0
+    },
+    diagnosticCodes: [{
+        type: String
+    }],
+    trackerId: {
         type: String,
         required: true,
-        unique: true
+    },//trackerId is registered on the tcu soo it should be consistent
+    createdAt: {
+        type: Date,
+        default: Date.now,
     }
 }, {
     timestamps: true,

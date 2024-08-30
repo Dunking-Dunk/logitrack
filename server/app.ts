@@ -27,7 +27,6 @@ import { DeleteStop } from "./routes/stop/delete";
 
 import { NewGpsTracker } from './routes/tracking/new';
 import { GetAllGpsTracker } from './routes/tracking';
-import { UpdateGpsTracker } from './routes/tracking/update';
 
 import { NewAnnouncement } from './routes/announcement/new';
 import { GetAllAnnouncement } from './routes/announcement/index';
@@ -41,7 +40,6 @@ import { signinRouter } from './routes/auth/signin';
 import { signupRouter } from './routes/auth/signup';
 import { signoutRouter } from './routes/auth/signout';
 import { currentUserRouter } from './routes/auth/current-user';
-import { DeleteTracker } from './routes/tracking/delete';
 
 import { GetDriver } from './routes/driver/get';
 import { NewDriver } from './routes/driver/new';
@@ -85,10 +83,8 @@ app.use(GetBusRoute)
 app.use(DeleteBusRoute)
 app.use(UpdateBusRoute)
 
-app.use(UpdateGpsTracker)
 app.use(NewGpsTracker)
 app.use(GetAllGpsTracker)
-app.use(DeleteTracker)
 
 app.use(NewFeedback)
 app.use(GetAllFeedback)

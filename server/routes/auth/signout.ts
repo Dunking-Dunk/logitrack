@@ -2,8 +2,7 @@ import express from "express";
 
 const router = express.Router();
 
-router.post('/api/users/logout', (req, res) => {
-    console.log('logout')
+router.post('/api/users/signout', (req, res) => {
     res.cookie('token', '', {}).json('logged out')
 })
 

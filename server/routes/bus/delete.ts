@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import { NotFoundError } from '../../errors/not-found-error'
-import {requireAuth} from '../../middleware/require-auth'
+import { requireAuth } from '../../middleware/require-auth'
 import { Bus } from '../../models/Bus'
 import { Stop } from '../../models/Stop'
 import { Tracker } from '../../models/Tracking'
@@ -9,19 +9,18 @@ import { Driver } from '../../models/Driver'
 
 const router = express.Router()
 
-router.delete('/api/bus/:id',requireAuth, async (req: Request, res: Response) => {
+router.delete('/api/bus/:id', requireAuth, async (req: Request, res: Response) => {
     const { id } = req.params
-   
+
     const bus = await Bus.findById(id)
-   
+
     if (!bus) throw new NotFoundError()
 
-    await bus?.stops.map(async(stopId) => {
-        await Stop.findByIdAndUpdate(stopId, { $pull : {busId: id} })
+    await bus?.stops.map(async (stopId) => {
+        await Stop.findByIdAndUpdate(stopId, { $pull: { busId: id } })
     })
-    
-    await Tracker.findByIdAndDelete(bus?.tracker)
-    await Driver.updateOne({ id: bus?.driver }, {busId: null})
+
+    await Driver.updateOne({ id: bus?.driver }, { busId: null })
     await Bus.findByIdAndDelete(id)
 
     io.emit('busDeleted', id)
@@ -29,4 +28,4 @@ router.delete('/api/bus/:id',requireAuth, async (req: Request, res: Response) =>
     res.status(200).send("successfully deleted")
 })
 
-export {router as DeleteBusRoute}
+export { router as DeleteBusRoute }

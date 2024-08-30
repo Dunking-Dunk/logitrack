@@ -21,7 +21,6 @@ router.post('/api/bus', requireAuth,
     async (req: Request, res: Response) => {
         const { busName, busNumber, busSet, stops, stops_distance_time, stops_polyline, seats, status, ac, origin, description } = req.body
 
-
         let bus = Bus.build({
             busName,
             busNumber,
@@ -34,7 +33,7 @@ router.post('/api/bus', requireAuth,
             ac,
             origin,
             description,
-            tracker: req.body.tracker,
+            trackerId: req.body.tracker,
             driver: req.body.driver ? req.body.driver : null
         })
 
@@ -44,21 +43,13 @@ router.post('/api/bus', requireAuth,
             await doc?.save()
         })
 
-        const tracker = await Tracker.build({ bus: bus._id, onBusRoute: `${bus.busNumber} ${bus.busSet}`, onBusName: bus.busName, gpsId: req.body.gpsId })
-        await tracker?.save()
-
-        bus.set({ tracker: tracker.id })
-
         if (req.body.driver) {
-            const driver = await Driver.findById(bus.driver)
-            driver?.set({ busId: bus._id })
-            await driver?.save()
+            await Driver.findByIdAndUpdate(bus.driver, { busId: bus._id })
         }
 
         await bus.save()
 
         bus = await bus.populate('stops')
-
 
         io.emit('newBusAdded', bus)
 
