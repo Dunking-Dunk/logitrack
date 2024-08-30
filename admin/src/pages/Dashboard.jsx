@@ -2,7 +2,7 @@ import Doughnut from '../components/dashboard/charts/Doughnut';
 import Scatter from '../components/dashboard/charts/Scatter'
 import LineChart from '../components/dashboard/charts/MultiAxis'
 import Bar from '../components/dashboard/charts/Bar'
-import Map from '../components/dashboard/Map'
+// import Map from '../components/dashboard/Map'
 import CardOverview from "../components/dashboard/OverviewCard"
 // import { BsBusFront } from 'react-icons/bs'
 // import { FaUsers } from 'react-icons/fa'
@@ -31,7 +31,7 @@ export const Dashboard = () => {
           </TabsList>
           <TabsContent value="overview" className="w-full h-full flex flex-col space-y-5" >
             <div className="w-full h-[700px]">
-              <Map />
+              {/* <Map /> */}
             </div>
             <div className="flex flex-row w-full h-full space-x-4">
               <CardOverview title='Buses' value={45} description="Total number of buses in service"  />
