@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { StopDoc } from "./Stop";
+import { RouteDoc } from "./Route";
 
 interface BusAttrs {
     busNumber: number,
@@ -8,15 +9,13 @@ interface BusAttrs {
     busName: string,
     description: string,
     origin: string,
-    stops: StopDoc[],
     tracker?: string,
     driver?: string,
-    stops_polyline: [],
-    stops_distance_time: [],
     seats: number,
     status: boolean,
     ac: boolean,
     trackerId: string
+    route?: RouteDoc
 }
 export interface BusDoc extends mongoose.Document {
     busNumber: number,
@@ -24,16 +23,14 @@ export interface BusDoc extends mongoose.Document {
     busName: string,
     description: string,
     origin: string,
-    stops: StopDoc[],
     version: number,
     tracker?: string,
     driver?: string,
-    stops_polyline: [],
-    stops_distance_time: [],
     seats: number,
     status: boolean,
     ac: boolean,
     trackerId: string
+    route?: RouteDoc
 }
 
 interface BusModel extends mongoose.Model<BusDoc> {
@@ -58,18 +55,6 @@ export const Schema = new mongoose.Schema({
     description: {
         type: String
     },
-    stops: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Stop'
-    }],
-    stops_polyline: [{
-        type: [Number],
-        required: true,
-    }],
-    stops_distance_time: [{
-        distance: Number,
-        duration: Number
-    }],
     seats: {
         type: Number,
         default: 64
@@ -94,6 +79,10 @@ export const Schema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Driver'
     },
+    route: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Driver'
+    }
 }, {
     toJSON: {
         transform(doc, ret) {

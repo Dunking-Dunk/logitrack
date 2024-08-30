@@ -35,28 +35,32 @@ const driverSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    age: {
+        type: Number,
+        required: true,
+    },
     image: {
-            public_id: {
-              type: String,
-              required: true,
-            },
-            url: {
-              type: String,
-              required: true,
-            },
+        public_id: {
+            type: String,
+            required: true,
+        },
+        url: {
+            type: String,
+            required: true,
+        },
     },
     busId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Bus'
     }
 },
-{
-    toJSON: {
-        transform(doc,ret) {
-            ret.id = ret._id
-            delete ret._id
+    {
+        toJSON: {
+            transform(doc, ret) {
+                ret.id = ret._id
+                delete ret._id
+            }
         }
-    }
     })
 
 driverSchema.statics.build = (attrs: DriverAttrs) => {
@@ -70,4 +74,4 @@ driverSchema.statics.build = (attrs: DriverAttrs) => {
 
 const Driver = mongoose.model<DriverDoc, DriverModel>('Driver', driverSchema)
 
-export {Driver}
+export { Driver }
