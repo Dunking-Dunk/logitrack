@@ -19,6 +19,7 @@ import Login from './pages/auth/sign-in/index';
 import Main from './pages/Main';
 import Loader from './components/global/Loader'
 import { currentUser } from './store/reducer/UserReducer';
+import { Dashboard } from './pages/Dashboard';
 
 ChartJS.register(
   ArcElement,
@@ -64,6 +65,7 @@ function App() {
     <>
       <Routes>
          <Route element={<Main />} path='/' /> :   <Route element={<Login />} path='/login' />  
+         <Route element={<Dashboard />} path='/dashboard' /> :   <Route element={<Login />} path='/login' />  
       </Routes>
       <Toaster />
     </>

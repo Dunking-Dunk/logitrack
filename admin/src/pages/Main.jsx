@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import Header from '@/components/global/Header';
 import  Sidebar  from '@/components/global/sidebar/index';
+import { Route, Routes } from 'react-router-dom';
+import { Dashboard } from './Dashboard';
 // import Dashboard from './Dashboard';
 // import Header from '../components/Header';
 // import { Routes, Route } from 'react-router-dom';
@@ -34,13 +36,13 @@ const Main = () => {
         <div className='h-full w-full'>
            <Sidebar>
            <Header />
-        {/* <Routes>
-                <Route element={<Dashboard />} path='/' />
-                <Route element={<Vehicle />} path='/vehicle/*' />
+            <Routes>
+                <Route element={<Dashboard />} path='/dashboard' />
+                {/* <Route element={<Vehicle />} path='/vehicle/*' />
                 <Route element={<User />} path='/user/*' />
                 <Route element={<Place />} path='/place/*' />
-                <Route element={<Shipping />} path='/shipping/*' />
-            </Routes> */}
+                <Route element={<Shipping />} path='/shipping/*' /> */}
+            </Routes>
            </Sidebar>
         </div>
     )
