@@ -14,8 +14,8 @@ import NavigationLink from "../NavigationLink"
 function Sidebar() {
 
   return (
-    <div className="flex min-h-screen w-[280px] relative">
-      <div className="fixed inset-y-0 left-0 w-[243px] z-10 border-r bg-muted/40">
+    <div className="flex min-h-screen w-[290px] relative">
+      <div className="fixed inset-y-0 left-0 w-[240px] z-10 border-r bg-muted/40">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <NavigationLink href="" className="flex items-center gap-2 font-semibold">
@@ -26,6 +26,7 @@ function Sidebar() {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <NavigationLink
+              isActiveClass='bg-muted'
                 href="/"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
               >
@@ -33,6 +34,7 @@ function Sidebar() {
                 Dashboard
               </NavigationLink>
               <NavigationLink
+              isActiveClass='bg-muted'
                 href="/bus"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
               >
@@ -40,6 +42,7 @@ function Sidebar() {
                 Bus
               </NavigationLink>
               <NavigationLink
+              isActiveClass='bg-muted'
                 href="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-primary transition-all hover:text-primary"
               >
@@ -47,6 +50,7 @@ function Sidebar() {
                 Stops
               </NavigationLink>
               <NavigationLink
+              isActiveClass='bg-muted'
                 href="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
               >
@@ -54,6 +58,7 @@ function Sidebar() {
                 Customers
               </NavigationLink>
               <NavigationLink
+              isActiveClass='bg-muted'
                 href="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
               >

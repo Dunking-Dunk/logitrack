@@ -11,29 +11,14 @@ import { Driver } from '../../models/Driver'
 
 const router = express.Router()
 
-router.post('/api/bus', requireAuth,
-    [
-        body('busSet').not().isEmpty().withMessage('Bus Set is required'),
-        body('busName').not().isEmpty().withMessage('Bus Name is required'),
-        body('stops').isLength({ min: 1 }).withMessage('requires more than one stop').notEmpty().withMessage('Stops are required')
-    ],
-    ValidateRequest,
+router.post('/api/bus', 
     async (req: Request, res: Response) => {
-        const { busName, busNumber, busSet, seats, status, ac, origin, description } = req.body
-
+        console.log(req.body)
         let bus = Bus.build({
-            busName,
-            busNumber,
-            busSet,
-            seats,
-            status,
-            ac,
-            origin,
-            description,
-            trackerId: req.body.tracker,
+            ...req.body,
             driver: req.body.driver ? req.body.driver : null
         })
-
+        
         // await bus.stops.map(async (stop) => {
         //     let doc = await Stop.findById(stop)
         //     doc?.busId?.push(bus._id)
@@ -45,8 +30,6 @@ router.post('/api/bus', requireAuth,
         }
 
         await bus.save()
-
-        bus = await bus.populate('stops')
 
         io.emit('newBusAdded', bus)
 

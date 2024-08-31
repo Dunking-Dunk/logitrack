@@ -1,14 +1,11 @@
 import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
-import { StopDoc } from "./Stop";
 import { RouteDoc } from "./Route";
 
 interface BusAttrs {
-    busNumber: number,
-    busSet: string,
-    busName: string,
-    description: string,
-    origin: string,
+    make: string,
+    model: string,
+    registerNumber: string,
     tracker?: string,
     driver?: string,
     seats: number,
@@ -18,12 +15,9 @@ interface BusAttrs {
     route?: RouteDoc
 }
 export interface BusDoc extends mongoose.Document {
-    busNumber: number,
-    busSet: string,
-    busName: string,
-    description: string,
-    origin: string,
-    version: number,
+    make: string,
+    model: string,
+    registerNumber: string,
     tracker?: string,
     driver?: string,
     seats: number,
@@ -38,22 +32,17 @@ interface BusModel extends mongoose.Model<BusDoc> {
 }
 
 export const Schema = new mongoose.Schema({
-    busNumber: {
+    make: {
         type: String,
-        required: true,
+        required: [true, 'Vehicle Make Required'],
     },
-    busSet: {
+    model: {
+            type: String,
+            required: [true, 'Vehicle Model Required'],
+    },
+    registerNumber: {
         type: String,
-    },
-    busName: {
-        type: String,
-        required: true,
-    },
-    origin: {
-        type: String,
-    },
-    description: {
-        type: String
+        required: [true, 'Vehicle Registeration Number Required'],
     },
     seats: {
         type: Number,

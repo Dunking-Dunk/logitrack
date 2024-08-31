@@ -21,7 +21,18 @@ interface RouteModel extends mongoose.Model<RouteDoc> {
 }
 
 export const Schema = new mongoose.Schema({
-
+    routeName: {
+        type: String,
+        required: true,
+    },
+    routeNumber: {
+        type: Number,
+        required: true
+    },
+    routeSet: {
+        type: String,
+        required: true
+    },
     stops: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Stop'
