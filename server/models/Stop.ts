@@ -48,9 +48,9 @@ const stopSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    busId: [{
+    routeId: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Bus'
+        ref: 'Route'
     }]
 },
 {

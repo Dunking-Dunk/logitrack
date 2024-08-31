@@ -1,11 +1,6 @@
 import express, { Request, Response } from 'express'
-import { body } from 'express-validator'
 
 import { Bus } from '../../models/Bus'
-import { Stop } from '../../models/Stop'
-import { Tracker } from '../../models/Tracking'
-import { ValidateRequest } from '../../middleware/validate-request'
-import { requireAuth } from '../../middleware/require-auth'
 import { io } from '../../app'
 import { Driver } from '../../models/Driver'
 
