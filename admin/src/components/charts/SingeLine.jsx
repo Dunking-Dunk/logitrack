@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Line } from 'react-chartjs-2';
 import axios from "@/api/axios";
 
-const SingleLine = (props: any) => {
+const SingleLine = (props) => {
     const [speedData, setSpeedData] = useState({
         speed: [],
         time: []
@@ -14,8 +14,8 @@ const SingleLine = (props: any) => {
         const helper = async () => {
             const res = await axios.get(`/data/backtrack/${props.id}?days=2`)
             const data = res.data
-            const speed = data.map((a: any) => a.speed)
-            const time = data.map((a: any) => a.createdAt)
+            const speed = data.map((a) => a.speed)
+            const time = data.map((a) => a.createdAt)
             setSpeedData({ speed, time })
         }
 
@@ -26,7 +26,7 @@ const SingleLine = (props: any) => {
         responsive: true,
         plugins: {
             legend: {
-                position: 'top' as const,
+                position: 'top' ,
             },
             title: {
                 display: true,

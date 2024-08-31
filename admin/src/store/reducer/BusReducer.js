@@ -24,6 +24,17 @@ export const getAllBus = createAsyncThunk('bus/getAllBus', async(thunkAPI) => {
     }
 })
 
+export const getBus = createAsyncThunk('bus/getBus', async(id, thunkAPI) => {
+    try {
+        const res = await api.get(`/bus/${id}`)
+        const data = await res.data
+        return data
+    }catch (err) {
+        if (err)
+            return thunkAPI.rejectWithValue({ error: err });
+    }
+})
+
 export const deleteBus = createAsyncThunk('bus/deleteBus', async (id, thunkAPI) => {
     try {
         await api.delete(`/bus/${id}`);
@@ -80,6 +91,17 @@ const busReducer = createSlice({
             state.loading = true
         })
         builder.addCase(getAllBus.rejected, (state, action) => {
+            state.error = action.payload.error
+            state.loading = false
+        })
+        builder.addCase(getBus.fulfilled, (state, action) => {
+            state.bus = action.payload
+            state.loading = false
+        })
+        builder.addCase(getBus.pending, (state, action) => {
+            state.loading = true
+        })
+        builder.addCase(getBus.rejected, (state, action) => {
             state.error = action.payload.error
             state.loading = false
         })
