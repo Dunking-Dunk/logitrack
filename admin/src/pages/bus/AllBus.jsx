@@ -1,7 +1,6 @@
 import React from 'react'
 import  DataTable  from '@/components/global/DataTable'
 import { busColumns } from '@/lib/columns'
-import { getAllBus } from '@/store/reducer/BusReducer'
 import { useSelector } from 'react-redux'
 
 function AllBus() {

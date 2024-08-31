@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
+import DataTable  from '../../components/global/DataTable';
+import {driverColumns} from '../../lib/columns';
+import { useSelector } from 'react-redux';
 
-const AllDriver = () => {
+const Driver = () => {
+  const drivers = useSelector((state) => state.Driver.drivers);
+
   return (
-    <div>AllDriver</div>
-  )
-}
+    <div className='flex flex-col space-y-4'>
+      <h1 className='font-medium text-xl'>All Drivers</h1>
+      <DataTable columns={driverColumns} data={drivers} />
+    </div>
+  );
+};
 
-export default AllDriver
+export default Driver;

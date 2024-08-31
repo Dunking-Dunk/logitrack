@@ -10,6 +10,7 @@ import Driver from './driver/Index'
 import Dashboard from './Dashboard';
 import Bus from './bus/Index'
 import Stop from './stop/Index'
+import { getAllDriver } from '@/store/reducer/DriverStore';
 
 
 const Main = () => {
@@ -17,6 +18,7 @@ const Main = () => {
 
     useEffect(() => {
        dispatch(getAllBus())
+       dispatch(getAllDriver())
        dispatch(getAllStops())
     }, [])
 
