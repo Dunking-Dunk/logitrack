@@ -19,15 +19,12 @@ router.post('/api/bus', requireAuth,
     ],
     ValidateRequest,
     async (req: Request, res: Response) => {
-        const { busName, busNumber, busSet, stops, stops_distance_time, stops_polyline, seats, status, ac, origin, description } = req.body
+        const { busName, busNumber, busSet, seats, status, ac, origin, description } = req.body
 
         let bus = Bus.build({
             busName,
             busNumber,
             busSet,
-            stops,
-            stops_distance_time,
-            stops_polyline,
             seats,
             status,
             ac,
@@ -37,11 +34,11 @@ router.post('/api/bus', requireAuth,
             driver: req.body.driver ? req.body.driver : null
         })
 
-        await bus.stops.map(async (stop) => {
-            let doc = await Stop.findById(stop)
-            doc?.busId?.push(bus._id)
-            await doc?.save()
-        })
+        // await bus.stops.map(async (stop) => {
+        //     let doc = await Stop.findById(stop)
+        //     doc?.busId?.push(bus._id)
+        //     await doc?.save()
+        // })
 
         if (req.body.driver) {
             await Driver.findByIdAndUpdate(bus.driver, { busId: bus._id })

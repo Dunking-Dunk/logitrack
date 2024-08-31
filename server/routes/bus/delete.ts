@@ -16,9 +16,9 @@ router.delete('/api/bus/:id', requireAuth, async (req: Request, res: Response) =
 
     if (!bus) throw new NotFoundError()
 
-    await bus?.stops.map(async (stopId) => {
-        await Stop.findByIdAndUpdate(stopId, { $pull: { busId: id } })
-    })
+    // await bus?.stops.map(async (stopId) => {
+    //     await Stop.findByIdAndUpdate(stopId, { $pull: { busId: id } })
+    // })
 
     await Driver.updateOne({ id: bus?.driver }, { busId: null })
     await Bus.findByIdAndDelete(id)

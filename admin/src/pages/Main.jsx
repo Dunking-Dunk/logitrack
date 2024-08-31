@@ -3,7 +3,7 @@ import Header from '@/components/global/Header';
 import Sidebar from '@/components/global/sidebar/index';
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './Dashboard';
-import Bus from './bus/Dashboard'
+import Bus from './bus/Index'
 // import Header from '../components/Header';
 // import { Routes, Route } from 'react-router-dom';
 
@@ -40,7 +40,7 @@ const Main = () => {
                 <div className='mx-4'>
                     <Routes>
                         <Route element={<Dashboard />} path='/' />
-                        <Route element={<Bus />} path='/bus' />
+                        <Route element={<Bus />} path='/bus/*' />
                     </Routes>
                 </div>
             </div>
