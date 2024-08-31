@@ -1,17 +1,10 @@
 import React from 'react'
 import AlertDialog from '@/components/global/AlertDialogue'
-import { Button } from '@/components/ui/button'
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { deleteBus } from '@/store/reducer/BusReducer'
 import store from '@/store/store'
-
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-
 import {Link} from 'react-router-dom'
+import { deleteStop } from '../store/reducer/StopReducer'; 
+
 
 export const busColumns = [
   {
@@ -57,3 +50,47 @@ export const busColumns = [
       }
     }
   ]
+
+export const stopColumn = [
+  {
+    accessorKey: 'id',
+    header: 'Id',
+  },
+  {
+    accessorKey: 'name',
+    header: 'Stop',
+  },
+  {
+    accessorKey: 'address',
+    header: 'Address',
+  },
+  {
+    accessorKey: 'busId',
+    header: 'No of buses',
+    cell: ({ row }) => {
+      const busId = row.getValue('busId');
+
+      return <p>{busId.length}</p>;
+    },
+  },
+  {
+    accessorKey: 'action',
+    header: 'Action',
+    cell: ({ row }) => {
+      const id = row.getValue('id');
+
+      return (
+        <div className='flex space-x-4'>
+          <AlertDialog
+            content='The following will be permanently deleted'
+            onClick={async () => {
+              store.dispatch(deleteStop(id));
+            }}
+          >
+            Delete
+          </AlertDialog>
+        </div>
+      );
+    },
+  },
+];
