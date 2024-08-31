@@ -2,6 +2,8 @@ import React from 'react'
 import AlertDialog from '@/components/global/AlertDialogue'
 import { Button } from '@/components/ui/button'
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { deleteBus } from '@/store/reducer/BusReducer'
+import store from '@/store/store'
 
 import {
   Avatar,
@@ -41,13 +43,12 @@ export const busColumns = [
       header: 'Action',
       cell: ({ row }) => {
         const id = row.getValue('id');
-  
         return (
           <div className='flex space-x-4 items-center'>
-            <Link href={`/bus/${id}`} className='bg-secondary  h-full py-2 px-4 rounded-lg'>View</Link>
-            <Link href={`/bus/update/${id}`} className='bg-secondary  h-full py-2 px-4 rounded-lg'>Update</Link>
+            <Link to={`/bus/${id}`} className='bg-secondary  h-full py-2 px-4 rounded-lg'>View</Link>
+            <Link to={`/bus/update/${id}`} className='bg-secondary  h-full py-2 px-4 rounded-lg'>Update</Link>
             <AlertDialog content='The following will be permanently deleted' onClick={async () => {
-            //   store.dispatch(deleteBus(id))
+              store.dispatch(deleteBus(id))
             }}>
               Delete
             </AlertDialog>
