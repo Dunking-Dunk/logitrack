@@ -4,12 +4,18 @@ import { StopDoc } from "./Stop";
 import { BusDoc } from "./Bus";
 
 interface RouteAttrs {
+    routeName:string,
+    routeNumber:string,
+    routeSet: string,
     stops: StopDoc[],
     stops_polyline: [],
     stops_distance_time: [],
     bus?: BusDoc[]
 }
 export interface RouteDoc extends mongoose.Document {
+    routeName:string,
+    routeNumber:string,
+    routeSet: string,
     stops: StopDoc[],
     stops_polyline: [],
     stops_distance_time: [],

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { BusDoc } from "./Bus";
+import { RouteDoc } from "./Route";
 
 interface Coords {
     latitude: number;
@@ -12,7 +12,7 @@ interface StopAttrs {
     address?: string,
     name: string,
     timing: string, 
-    busId?: BusDoc[]
+    routeId?: RouteDoc[]
 }
 
 export interface StopDoc extends mongoose.Document {
@@ -20,7 +20,7 @@ export interface StopDoc extends mongoose.Document {
     address?: string,
     name: string,
     timing: string,   
-    busId?: BusDoc[]
+    routeId?: RouteDoc[]
 }
 
 interface StopModel extends mongoose.Model<StopDoc> {
