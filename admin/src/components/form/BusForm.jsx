@@ -70,7 +70,6 @@ const BusForm = ({ update }) => {
       const body = {
         ...data,
       }
-      console.log(body)
       
       dispatch(createBus(body)).then((state) => {
         if (!state.error) {

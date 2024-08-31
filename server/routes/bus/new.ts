@@ -13,7 +13,6 @@ const router = express.Router()
 
 router.post('/api/bus', 
     async (req: Request, res: Response) => {
-        console.log(req.body)
         let bus = Bus.build({
             ...req.body,
             driver: req.body.driver ? req.body.driver : null

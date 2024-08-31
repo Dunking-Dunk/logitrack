@@ -12,39 +12,22 @@ import {
 import {Link} from 'react-router-dom'
 
 export const busColumns = [
-    {
-      accessorKey: "id",
-      header: "Id",
-    },
-    {
-      accessorKey: "busName",
-      header: 'Bus Name'
-    },
-    {
-      accessorKey: "busNumber",
-  
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Bus Number
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      }
-    },
-  
-    {
-      accessorKey: "busSet",
-      header: "Bus Set",
-    },
-  
-    {
-      accessorKey: "origin",
-      header: "Origin",
-    },
+  {
+    accessorKey: "id",
+    header: "Id",
+  },
+  {
+    accessorKey: "make",
+    header: 'Vehicle Make'
+  },
+  {
+    accessorKey: "model",
+    header: 'Vehicle Model'
+  },
+  {
+    accessorKey: "registerNumber",
+    header: "Vehicle Register Number",
+  },
     {
       accessorKey: "seats",
       header: "Total Seats",

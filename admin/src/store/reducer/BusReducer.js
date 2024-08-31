@@ -1,12 +1,9 @@
-'use client'
 import api from '@/api/axios'
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
 
 export const createBus = createAsyncThunk('bus/createBus', async (body, thunkAPI) => {
     try {
         const res = await api.post("/bus", body);
-        console.log(res.data)
         const data = await res.data;
         return data;
     } catch (err) {

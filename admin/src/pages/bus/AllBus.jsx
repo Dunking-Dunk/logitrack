@@ -1,9 +1,11 @@
 import React from 'react'
 import  DataTable  from '@/components/global/DataTable'
 import { busColumns } from '@/lib/columns'
+import { getAllBus } from '@/store/reducer/BusReducer'
+import { useSelector } from 'react-redux'
 
 function AllBus() {
-    const buses = []
+  const {buses} = useSelector((state) => state.Bus)
 
   return (
 <div className='flex flex-col space-y-4'>
