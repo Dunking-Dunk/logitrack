@@ -4,7 +4,12 @@ import { deleteBus } from '@/store/reducer/BusReducer'
 import store from '@/store/store'
 import {Link} from 'react-router-dom'
 import { deleteStop } from '../store/reducer/StopReducer'; 
-
+import { deleteDriver } from '@/store/reducer/DriverStore';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
 
 export const busColumns = [
   {
@@ -94,3 +99,80 @@ export const stopColumn = [
     },
   },
 ];
+
+
+export const driverColumns = [
+  {
+    accessorKey: "id",
+    header: "Id",
+  },
+  {
+    accessorKey: 'image',
+    header: 'Image',
+    cell: ({ row }) => {
+      const img = row.getValue('image');
+
+      return (
+        <Avatar>
+          <AvatarImage src={img.url} alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+      )
+    }
+  },
+
+  {
+    accessorKey: "name",
+    header: "Name",
+
+  },
+  {
+    accessorKey: "phoneNumber",
+    header: "Phone Number",
+  },
+  {
+    accessorKey: "busId",
+    header: "Bus ID",
+  },
+  {
+    accessorKey: 'bus',
+    header: "Bus",
+    cell: ({ row }) => {
+      const busId = row.getValue('busId')
+      const { buses } = store.getState().Bus
+      const bus = buses.find((bus) => bus.id === busId)
+      if (bus) {
+        return (
+          <div>
+            <p>{bus?.busNumber} / {bus?.busSet}</p>
+            <p>{bus?.busName}</p>
+          </div>
+        )
+      } else {
+        return (
+          <div>
+            <p>no bus</p>
+          </div>
+
+        )
+      }
+    }
+  },
+  {
+    accessorKey: 'action',
+    header: 'Action',
+    cell: ({ row }) => {
+      const id = row.getValue('id');
+
+      return (
+        <div className='flex space-x-4'>
+          <AlertDialog content='The following will be permanently deleted' onClick={async () => {
+            store.dispatch(deleteDriver(id))
+          }}>
+            Delete
+          </AlertDialog>
+        </div>
+      )
+    }
+  }
+]
