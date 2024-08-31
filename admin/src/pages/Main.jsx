@@ -4,16 +4,20 @@ import Sidebar from '@/components/global/sidebar/index';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getAllBus } from '@/store/reducer/BusReducer';
+import { getAllStops } from '@/store/reducer/StopReducer';
 
+import Driver from './driver/Index'
 import Dashboard from './Dashboard';
 import Bus from './bus/Index'
 import Stop from './stop/Index'
+
 
 const Main = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
        dispatch(getAllBus())
+       dispatch(getAllStops())
     }, [])
 
     return (
@@ -26,6 +30,7 @@ const Main = () => {
                         <Route element={<Dashboard />} path='/' />
                         <Route element={<Bus />} path='/bus/*' />
                         <Route element={<Stop/>} path="/stop/*"/>
+                        <Route element={<Driver/>} path="/driver/*"/>
                     </Routes>
                 </div>
             </div>

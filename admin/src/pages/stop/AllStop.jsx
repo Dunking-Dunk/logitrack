@@ -1,11 +1,12 @@
 import React from "react";
 import  DataTable from '../../components/global/DataTable';
 import { stopColumn } from "@/lib/columns";
+import { useSelector } from "react-redux";
 
 
 const AllStops = () => {
-    const stops = []
-
+    const stops = useSelector(state => state.Stop.stops)
+   
     return (
         <div>
             <h1>Stops</h1>

@@ -15,32 +15,12 @@ import { Textarea } from "../../components/ui/textarea";
 import { Input } from "../../components/ui/input";
 import MapMarker from '../../components/map/MapAddress';
 import { useToast } from "@/components/ui/use-toast";
-
-// Mocked dispatch function
-const useAppDispatch = () => {
-  return (action) => {
-    // Simulate a successful dispatch
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (action.type === 'CREATE_STOP') {
-          resolve({ error: null }); // Simulate success
-        } else {
-          reject(new Error('Dispatch failed')); // Simulate error
-        }
-      }, 1000);
-    });
-  };
-};
-
-// Mocked createStop action
-const createStop = (body) => ({
-  type: 'CREATE_STOP',
-  payload: body,
-});
+import { createStop } from '@/store/reducer/StopReducer';
+import { useDispatch } from 'react-redux';
 
 const Create = () => {
   const { toast } = useToast();
-  const dispatch = useAppDispatch(); // Use mocked dispatch
+  const dispatch = useDispatch(); 
   const [coords, setCoord] = useState({ lat: 0, lng: 0 });
   const [address, setAddress] = useState({ address: '', placeId: '' });
 
@@ -126,7 +106,6 @@ const Create = () => {
               </FormItem>
             )}
           />
-
           <Button type="submit">Create</Button>
         </form>
       </Form>

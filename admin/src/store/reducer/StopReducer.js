@@ -3,11 +3,21 @@ import api from '@/api/axios'
 
 export const createStop = createAsyncThunk('stop/createStop', async (body, thunkAPI) => {
     try {
-
         const res = await api.post("/stop", body);
         const data = await res.data;
         return data;
     } catch (err) {
+        if (err)
+            return thunkAPI.rejectWithValue({ error: err });
+    }
+})
+
+export const getAllStops = createAsyncThunk('stop/getAllStop', async(thunkAPI) => {
+    try {
+        const res = await api.get("/stop");
+        const data = await res.data;
+        return data;
+    }catch(err) {
         if (err)
             return thunkAPI.rejectWithValue({ error: err });
     }
@@ -59,6 +69,16 @@ const stopReducer = createSlice({
             state.loading = true
         })
         builder.addCase(createStop.rejected, (state, action) => {
+            state.loading = false
+        })
+        builder.addCase(getAllStops.fulfilled, (state, action) => {
+            state.loading = false
+            state.stops = action.payload
+        })
+        builder.addCase(getAllStops.pending, (state,action) => {
+            state.loading = true
+        })
+        builder.addCase(getAllStops.rejected, (state, action) => {
             state.loading = false
         })
     }

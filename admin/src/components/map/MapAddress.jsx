@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Marker } from '@react-google-maps/api';
+import {MarkerF} from '@react-google-maps/api';
 import Map from './Map'; // Make sure this is correctly set up
 
 const MapMarker = ({ setAddress, getCoord }) => {
@@ -36,7 +36,7 @@ const MapMarker = ({ setAddress, getCoord }) => {
       center={coords}
       zoom={15}
     >
-      <Marker position={coords} />
+      <MarkerF position={coords} />
     </Map>
   );
 };
