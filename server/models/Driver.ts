@@ -35,10 +35,6 @@ const driverSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    age: {
-        type: Number,
-        required: true,
-    },
     image: {
         public_id: {
             type: String,

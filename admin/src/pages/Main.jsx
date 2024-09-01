@@ -9,8 +9,10 @@ import { getAllStops } from '@/store/reducer/StopReducer';
 import Driver from './driver/Index'
 import Dashboard from './Dashboard';
 import Bus from './bus/Index'
+import RouteScreen from './route/Index'
 import Stop from './stop/Index'
 import { getAllDriver } from '@/store/reducer/DriverStore';
+import { getAllRoute } from '@/store/reducer/RouteReducer';
 
 
 const Main = () => {
@@ -20,6 +22,7 @@ const Main = () => {
        dispatch(getAllBus())
        dispatch(getAllDriver())
        dispatch(getAllStops())
+       dispatch(getAllRoute())
     }, [])
 
     return (
@@ -33,6 +36,7 @@ const Main = () => {
                         <Route element={<Bus />} path='/bus/*' />
                         <Route element={<Stop/>} path="/stop/*"/>
                         <Route element={<Driver/>} path="/driver/*"/>
+                        <Route element={<RouteScreen/>} path='/route/*'/>
                     </Routes>
                 </div>
             </div>

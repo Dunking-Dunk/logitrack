@@ -10,7 +10,7 @@ import { Stop } from '../../models/Stop'
 
 const router = express.Router()
 
-router.post('/api/router', requireAuth,
+router.post('/api/route', requireAuth,
     [
         body('stops').isLength({ min: 1 }).withMessage('requires more than one stop').notEmpty().withMessage('Stops are required')
     ],

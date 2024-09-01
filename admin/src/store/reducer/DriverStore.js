@@ -11,9 +11,9 @@ export const createDriver = createAsyncThunk('driver/createDriver', async (body,
     }
 })
 
-export const getAllDriver =  createAsyncThunk('driver/getAllDriver', async (body,thunkAPI) => {
+export const getAllDriver =  createAsyncThunk('driver/getAllDriver', async (thunkAPI) => {
     try {
-        const res = await api.get('/driver', body)
+        const res = await api.get('/driver')
         const data = await res.data;
         return data;
     } catch (err) {
@@ -69,6 +69,17 @@ const driverReducer = createSlice({
                 (driver) => driver.id !== action.payload
               );
            } )
+           builder.addCase(getAllDriver.pending, (state,action) => {
+            state.loading = true
+        })
+        builder.addCase(getAllDriver.fulfilled, (state, action) => {
+            state.drivers= action.payload
+            state.loading = false
+        })
+        builder.addCase(getAllDriver.rejected, (state, action) => {
+            // state.error = action.payload.error
+            state.loading = false
+        })
     }
 })
 
