@@ -13,6 +13,8 @@ import RouteScreen from './route/Index'
 import Stop from './stop/Index'
 import { getAllDriver } from '@/store/reducer/DriverStore';
 import { getAllRoute } from '@/store/reducer/RouteReducer';
+import BusSchedulingDashboard from './sheduling/Sheduling';
+import AnalyticsPage from './analytics/Analytics';
 
 
 const Main = () => {
@@ -36,6 +38,8 @@ const Main = () => {
                         <Route element={<Bus />} path='/bus/*' />
                         <Route element={<Stop/>} path="/stop/*"/>
                         <Route element={<Driver/>} path="/driver/*"/>
+                        <Route element={<BusSchedulingDashboard/>} path="/sheduling/*"/>
+                        <Route element={<AnalyticsPage/>} path="/analytics/*"/>
                         <Route element={<RouteScreen/>} path='/route/*'/>
                     </Routes>
                 </div>
