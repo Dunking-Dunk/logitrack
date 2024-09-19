@@ -1,5 +1,3 @@
-'use client'
-
 import { useEffect, useState, memo, useRef } from 'react'
 import Map from './Map'
 import { useSelector } from 'react-redux'
