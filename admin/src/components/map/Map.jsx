@@ -1,17 +1,18 @@
 import React, { useMemo, useRef, useState } from "react";
 import { GoogleMap } from '@react-google-maps/api';
 
-const MapView = (props) => {
+const MapView = ({ children }) => {
   const mapRef = useRef(null);
   const [position, setPosition] = useState({
-    lat: 13.078339,
-    lng: 80.180592
+    lat: 28.6139, // Center of Delhi
+    lng: 77.209
   });
 
   const options = useMemo(() => ({
     mapId: "28fbb85fa828483f",
     disableDefaultUI: true,
-    clickableIcons: false
+    clickableIcons: false,
+    zoom: 10
   }), []);
 
   function handleLoad(map) {
@@ -25,7 +26,7 @@ const MapView = (props) => {
   }
 
   return (
-    <div className="w-full h-full rounded-md overflow-hidden" style={props.style}>
+    <div className="w-full h-full rounded-md overflow-hidden">
       <GoogleMap
         zoom={7}
         mapContainerStyle={{ width: '100%', height: '100%' }}
@@ -35,7 +36,7 @@ const MapView = (props) => {
         mapContainerClassName="map-container"
         options={options} // Ensuring options are passed correctly
       >
-        {props.children}
+        {children}
       </GoogleMap>
     </div>
   );

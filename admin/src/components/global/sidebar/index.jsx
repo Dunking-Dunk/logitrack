@@ -27,15 +27,15 @@ function Sidebar() {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <NavigationLink
-              isActiveClass='bg-muted'
-                href="/"
+                isActiveClass='bg-muted'
+                href="/analytics"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
               >
                 <Home className="h-4 w-4" />
                 Dashboard
               </NavigationLink>
               <NavigationLink
-              isActiveClass='bg-muted'
+                isActiveClass='bg-muted'
                 href="/bus"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
               >
@@ -43,7 +43,7 @@ function Sidebar() {
                 Bus
               </NavigationLink>
               <NavigationLink
-              isActiveClass='bg-muted'
+                isActiveClass='bg-muted'
                 href="/route"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-primary transition-all hover:text-primary"
               >
@@ -51,7 +51,7 @@ function Sidebar() {
                 Routes
               </NavigationLink>
               <NavigationLink
-              isActiveClass='bg-muted'
+                isActiveClass='bg-muted'
                 href="/stop"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-primary transition-all hover:text-primary"
               >
@@ -59,7 +59,7 @@ function Sidebar() {
                 Stops
               </NavigationLink>
               <NavigationLink
-              isActiveClass='bg-muted'
+                isActiveClass='bg-muted'
                 href="/driver"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
               >
@@ -67,21 +67,21 @@ function Sidebar() {
                 Drivers
               </NavigationLink>
               <NavigationLink
-              isActiveClass='bg-muted'
+                isActiveClass='bg-muted'
                 href="/sheduling"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
               >
                 <LineChart className="h-4 w-4" />
                 Sheduling
               </NavigationLink>
-              <NavigationLink
-              isActiveClass='bg-muted'
+              {/* <NavigationLink
+                isActiveClass='bg-muted'
                 href="/analytics"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
               >
                 <LineChart className="h-4 w-4" />
                 Analytics
-              </NavigationLink>
+              </NavigationLink> */}
             </nav>
           </div>
         </div>

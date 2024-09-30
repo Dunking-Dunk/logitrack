@@ -1,73 +1,67 @@
-import React from 'react'
-import Map from './Map'
+import React, { useState } from 'react';
+import { InfoWindowF, MarkerF } from '@react-google-maps/api';
+import MapView from './Map';
 
-import { Polyline } from '@react-google-maps/api'
-import { useSelector } from 'react-redux'
-import StopMarker from './StopMark'
-import { Badge } from "@/components/ui/badge"
-import { CardDescription } from '../ui/card'
+// Sample data for stops
+const stops = [
+    { name: "Devs REC Club", location: { lat: 13.0827, lng: 80.2707 } }, // Chennai
+    { name: "Pawlab", location: { lat: 28.7041, lng: 77.1025 } }, // Delhi
+    { name: "Automated Bus Scheduling Project", location: { lat: 12.9716, lng: 77.5946 } }, // Bangalore
+    { name: "Sixth Sense Project", location: { lat: 19.0760, lng: 72.8777 } }, // Mumbai
+    { name: "Hackmageddon Chapter 1", location: { lat: 22.5726, lng: 88.3639 } }, // Kolkata
+];
 
-
-const MapStops = () => {
-    const { stops } = useSelector((state) => state.Stop)
-    const { buses } = useSelector((state) => state.Bus)
-
-    return (
-        <Map zoom={12}>
-            {
-                stops.map((stop, index) => {
-                    const coords = stop.location.coordinate
-                    const stopsBus = stop.busId.map((bus) => buses.find((a) => a.id === bus))
-                    
-                    return <StopMarker position={{ lat: coords[1], lng: coords[0] }} stop={stop} type={2} key={index}>
-                        {stop.busId.length > 0 && (
-                            <>
-                                <h1 className='text-lg font-bold text-black'>Buses: </h1>
-                        <div className='flex flex-row space-x-5'>
-                                    {stopsBus.map((bus, index) => {
-                                        if (bus) {
-                                            return (
-                                                <Badge variant="secondary" className='text-md font-bold flex flex-col items-start' key={index}>
-                                            <CardDescription>{bus?.busNumber} / {bus?.busSet}
-                                            </CardDescription>
-                                            <CardDescription>{bus?.busName}
-                                            </CardDescription>
-                                            </Badge>)
-                                        }
-                                    })}
-                        </div>
-                            </>
-                        )
-                        }
-                    </StopMarker>
-                })
-            }
-            {
-                buses.map((bus) => {
-                    const polyLine = bus.stops_polyline.map((poly) => ({lat: poly[0], lng: poly[1]}))
-                    return (
-                          <Polyline
-                            path={polyLine}
-                            options={{
-                            strokeColor:'#F94C10',
-                                strokeOpacity: 1,
-                                strokeWeight:3,
-                        }}/>
-                    )
-                })
-            }
-                    <div className='absolute bottom-10 left-1/2 -translate-x-1/2 bg-primary px-4 py-2 rounded-2xl flex flex-row space-x-6 items-center'>
-                        <div className='flex flex-col'>
-                        <CardDescription>Total Stops</CardDescription>
-                    <h5 className='text-secondary font-bold text-lg'>{stops.length}</h5>
-                        </div>
-                        <div className='flex flex-col'>
-                        <CardDescription>Total number of routes</CardDescription>
-                    <h5 className='text-secondary font-bold text-lg'>{buses.length}</h5>
-                        </div>
-                    </div>
-        </Map>
-    )
+// Generate additional random projects for demonstration
+for (let i = 0; i < 95; i++) {
+    stops.push({
+        name: `Project ${i + 5}`, // Naming projects sequentially
+        location: {
+            lat: Math.random() * (28.8835 - 28.4082) + 28.4082, // Random latitude within Delhi
+            lng: Math.random() * (77.3534 - 76.8370) + 76.8370  // Random longitude within Delhi
+        }
+    });
 }
 
-export default MapStops
+const containerStyle = {
+    width: '100%',
+    height: '600px'
+};
+
+
+const Map = () => {
+    const [selected, setSelected] = useState(null);
+
+    return (
+        <MapView
+            mapContainerStyle={containerStyle}
+
+            zoom={5}
+        >
+            {stops.map((stop, index) => (
+                <MarkerF
+                    key={index}
+                    position={stop.location}
+                    onClick={() => {
+                        setSelected(stop); // Set the selected marker
+                    }}
+                />
+            ))}
+
+            {selected && (
+                <InfoWindowF
+                    position={selected.location} // Position of the InfoWindow
+                    onCloseClick={() => {
+                        setSelected(null); // Close the InfoWindow
+                    }}
+                >
+                    <div className='text-black'>
+                        <h2>{selected.name}</h2>
+                        <p>More details about {selected.name}...</p>
+                    </div>
+                </InfoWindowF>
+            )}
+        </MapView>
+    );
+}
+
+export default Map;

@@ -1,224 +1,324 @@
-import  React, {useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-// import Map from '@/components/Maps/MapBus'
-import MapView from '@/components/map/Map'
-import CardOverview from '@/components/global/OverviewCard'
-import { BsBusFront, BsFillFuelPumpDieselFill } from 'react-icons/bs'
-import { TbBusStop } from 'react-icons/tb'
-import { FaTruck } from "react-icons/fa";
-import Status from '@/components/global/ActiveStatus'
-// import { getDistanceAndTime } from '@/lib/getDistanceAndTime'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import CardOverview from '@/components/global/OverviewCard';
+import { BsBusFront, BsFillFuelPumpDieselFill, BsSpeedometer2 } from 'react-icons/bs';
+import { TbBusStop, TbRoute } from 'react-icons/tb';
+import { FaTruck, FaUserFriends } from "react-icons/fa";
+import Status from '@/components/global/ActiveStatus';
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
-  import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"   
-// import Stepper from '@/components/Stepper'
-// import MapBusBackTracking from '@/components/Maps/MapBusBackTracking'
-import LineChart from '@/components/charts/SingeLine'
-import { getBus } from '@/store/reducer/BusReducer'
-import Loader from '@/components/global/Loader'
-import { Bargraph } from '@/components/charts/Bargraph'
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Loader from '@/components/global/Loader';
+import { getBus } from '@/store/reducer/BusReducer';
+import { Progress } from "@/components/ui/progress";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar } from 'recharts';
+import MapBus from '@/components/map/MapBus';
 
-const Bus = () => {
-    const bus = useSelector((state) => state.Bus.bus)
-    const { id } = useParams()
-    const dispatch = useDispatch()
-    // const [totalDistance, estimatedTime] = getDistanceAndTime(bus.stops_distance_time)
+const mockBus = {
+    make: 'Volvo',
+    model: 'B11R',
+    fuelType: 'Diesel',
+    status: true,
+    seat: 45,
+    tracker: {
+        fuelLevel: 60,
+        engineTemp: '90°C',
+        coolantTemp: '80°C',
+        transmissionTemp: '85°C',
+        co2emission: '0.18 g/km',
+        engineStatus: true,
+        engineRpm: 1500,
+        torque: '450 Nm',
+        batteryLevel: '75%',
+        batteryVoltage: '12.6 V',
+    },
+    fuelEfficiency: 8.5, // km/L
+    totalDistance: 150000, // km
+    nextMaintenance: '2023-12-15',
+    maintenanceHistory: [
+        { date: '2023-06-01', type: 'Oil Change', cost: 150 },
+        { date: '2023-03-15', type: 'Brake Service', cost: 300 },
+        { date: '2022-12-20', type: 'Tire Rotation', cost: 100 },
+    ],
+    routePerformance: {
+        onTimePercentage: 92,
+        averageDelay: 5, // minutes
+        mostDelayedStop: 'West Square',
+    },
+    passengerAnalytics: {
+        averageOccupancy: 75, // percentage
+        peakHours: ['08:00', '17:30'],
+        totalPassengersToday: 450,
+    },
+    fuelEfficiencyData: [
+        { date: '2023-01', efficiency: 8.2 },
+        { date: '2023-02', efficiency: 8.3 },
+        { date: '2023-03', efficiency: 8.5 },
+        { date: '2023-04', efficiency: 8.4 },
+        { date: '2023-05', efficiency: 8.6 },
+        { date: '2023-06', efficiency: 8.5 },
+    ],
+    routePerformanceData: [
+        { date: '2023-01', onTime: 90, delay: 6 },
+        { date: '2023-02', onTime: 91, delay: 5 },
+        { date: '2023-03', onTime: 89, delay: 7 },
+        { date: '2023-04', onTime: 92, delay: 5 },
+        { date: '2023-05', onTime: 93, delay: 4 },
+        { date: '2023-06', onTime: 92, delay: 5 },
+    ],
+    passengerOccupancyData: [
+        { time: '06:00', occupancy: 30 },
+        { time: '09:00', occupancy: 80 },
+        { time: '12:00', occupancy: 60 },
+        { time: '15:00', occupancy: 70 },
+        { time: '18:00', occupancy: 90 },
+        { time: '21:00', occupancy: 40 },
+    ],
+};
+
+const EnhancedBusDashboard = () => {
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const bus = mockBus;
 
     useEffect(() => {
-      dispatch(getBus(id))
-    }, [])
+        dispatch(getBus(id));
+    }, [id, dispatch]);
 
-    if (bus && bus.tracker) {
-      return (<div className='w-full h-full pb-5 space-y-8'>
-        <div className='space-y-5'>
-            <div className='h-[700px] w-full relative'>
-              <MapView/>
-                {/* <Map stops={bus.stops} busPoly={bus.stops_polyline} id={params.id} /> */}
-                {/* <div className='absolute bottom-10 left-1/2 -translate-x-1/2 bg-primary p-2 rounded-2xl flex flex-row space-x-6 items-center'>
-                    <Status active={bus.status} size={9} />
-                    <div className='flex flex-col'>
-                        <CardDescription>Speed</CardDescription>
-                        <h5 className='text-secondary font-bold text-lg'>50 Km/h</h5>
-                    </div>
-                    <div className='flex flex-col'>
-                        <CardDescription>Total Distance </CardDescription>
-                        <h5 className='text-secondary font-bold text-lg'>{totalDistance} Km</h5>
-                    </div>
-                    <div className='flex flex-col'>
-                        <CardDescription>Total Estimated Time</CardDescription>
-                        <h5 className='text-secondary font-bold text-lg'>{estimatedTime}</h5>
-                    </div>
-                </div> */}
-            </div>
-            <div className='w-full flex flex-row space-x-2'>
-                <CardOverview title='Bus' description='Bus Make' value={bus.make} Icon={<BsBusFront />} />
-                <CardOverview title='Name' description='Bus Model' value={bus.model} Icon={<BsBusFront />} />
-                <CardOverview title='Fuel' description='Type of fuel used' value='CNG' Icon={<BsFillFuelPumpDieselFill />} />
-                <CardOverview title='Status' description='Current status of the bus' value={<Status active={bus.status} size={9} />} Icon={<TbBusStop size={20} />} />
-            </div>
-            <div className='w-full flex flex-row space-x-2'>
-                <CardOverview title='Tracker Id' description='Tracker Id' value={bus.trackerId} Icon={<BsBusFront />} />
-                <CardOverview title='Fuel' description={"Fuel level of the vehicle"} value={bus.tracker.fuelLevel} />
-                <CardOverview title='Total Seat' description={"Total Seat"} value={bus.seat} />
-            </div>
-        </div>
-        <div className="pt-6 space-y-2">
-                    <h1 className="text-4xl font-bold border-b-2">Vehicle Stats</h1>
-                    <h3 className="text-2xl font-semibold pt-4">Truck Information</h3>
-                    <h3 className="text-1xl">Engine Information</h3>
-                    <div className="flex flex-row space-x-2">
-                        <CardOverview title='HorsePower' description={"Fuel efficiency in kilometers per litre"} value={"230 HP"} Icon={<FaTruck size={20} color="grey"/>} />
-                        <CardOverview title='Engine Capacity' description={"Size of the engine in litres"} value={"6.7 L"} />
-                        <CardOverview title='Engine Age' description={"Lifespan of the engine"} value={"5 Years"} />
-                        <CardOverview title='Emission Standard' description={"The truck complies with emission standards."} value={"BS VI"} />
-                    </div>
-                    <h3 className="text-1xl">Vehicle Raw Statistics</h3>
-                    <div className="flex flex-row space-x-2">
-                        <CardOverview title='Engine Temperature' description={"Temperature of the engine"} value={bus.tracker?.engineTemp}  />
-                        <CardOverview title='Coolant Temperature' description={"Size of the engine in litres"} value={bus.tracker?.coolantTemp} />
-                        <CardOverview title='Transmission Temperature' description={"Lifespan of the engine"} value={bus.tracker?.transmissionTemp} />
-                        <CardOverview title='Emission' description={"Carbon emission"} value={bus.tracker?.co2emission} />
-                    </div>
-      
-                    <div className="flex flex-row space-x-2">
-                        <CardOverview title='Engine status' description={"Engine current status (on/off)"} value={bus.tracker?.engineStatus ? 'ON' : 'OFF'} Icon={<FaTruck size={20} color="grey"/>} />
-                        <CardOverview title='Engine RPM' description={"Engine RPM"} value={bus.tracker?.engineRpm} />
-                        <CardOverview title='Torque' description={"Vehicle Producing Torque"} value={bus.tracker.torque} />
-                        <CardOverview title='Battery Level' description={"Vehicle Battery Level"} value={bus.tracker.batteryLevel} />
-                        <CardOverview title='Voltage' description={"Vehicle Battery Voltage"} value={bus.tracker.batteryVoltage} />
-                    </div>
-                    
-                    {/* <h1 className=" border-b-2 pt-4"></h1> */}
-                    <div className="text-3xl font-bold pt-8 border-b-2">Charts</div>
-                    <Tabs className="space-y-4">
-                        <TabsContent className="space-y-4">
-                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
-                                    <Card className="col-span-4">
-                                    <CardHeader>
-                                        <CardTitle>Mileage</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <Bargraph/>
-                                    </CardContent> 
-                                    </Card>
-                                    <Card className="col-span-4">
-                                    <CardHeader>
-                                        <CardTitle>Recent Shipments</CardTitle>
-                                        <CardDescription>
-                                        <Bargraph/>
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                    </CardContent>
-                                    </Card>
-                                </div>
-                                
-                             </TabsContent>
-                             </Tabs>
-                </div>
-        <div className='space-y-4'>
-            <h3 className='text-4xl font-bold'>Stops</h3>
-            <div className='flex flex-row space-x-6 w-full'>
-                {/* <Stepper steps={bus.stops} distance_time={bus.stops_distance_time} />
-                <div className='flex flex-col space-y-2 w-full'>
-                    {
-                        bus.stops.map((stop, index) => {
-                            return (
-                                <Card className='h-full p-4 space-y-1' key={index}>
-                                    <div className='flex flex-row justify-between '>
-                                        <CardTitle>{index + 1}) {stop.name}</CardTitle>
-                                    </div>
-                                    <CardDescription>{stop.address}</CardDescription>
-                                    {index === 0 && (
-                                        <div className='py-2'>
-                                            <CardDescription>Starting Stop</CardDescription>
-                                        </div>
-                                    )}
-                                    {index >= 1 && (
-                                        <div className='py-2'>
-                                            <CardDescription>Estimated distance from prev stop</CardDescription>
-                                            <p className='font-bold'>{(bus.stops_distance_time[index - 1]?.distance / 1000).toFixed(2)} Km</p>
-                                            <CardDescription>Estimated duration from prev stop</CardDescription>
-                                            <p className='font-bold'>{Math.floor(bus.stops_distance_time[index - 1]?.duration / 60)} min</p>
-                                        </div>
-                                    )}
-
-                                </Card>)
-                        })
-                    }
-                </div> */}
-                <div className='flex flex-col w-1/3 space-y-4'>
-                    {/* <Card className='w-full'>
-                        <CardHeader>
-                            <h3 className='font-bold text-4xl'>Bus Details</h3>
-                            <CardDescription>{bus.busName}</CardDescription>
-                        </CardHeader>
-                        <CardContent className='flex flex-col gap-y-4'>
-                            <div className='space-y-1'>
-                                <CardTitle>Total Stops</CardTitle>
-                                <CardDescription>{bus.stops.length}</CardDescription>
-                            </div>
-                            <div className='space-y-1'>
-                                <CardTitle>Description</CardTitle>
-                                <CardDescription>{bus.description}</CardDescription>
-                            </div>
-                            <div className='space-y-1'>
-                                <CardTitle>Origin</CardTitle>
-                                <CardDescription>{bus.origin}</CardDescription>
-                            </div>
-                            <div className='space-y-1'>
-                                <CardTitle>Total Seats</CardTitle>
-                                <CardDescription>{bus.seats}</CardDescription>
-                            </div>
-                            <div className='space-y-1'>
-                                <CardTitle>AC</CardTitle>
-                                <Status active={bus.ac} size={9} />
-                            </div>
-                        </CardContent>
-                    </Card> */}
-                    {bus.driver && (<Card className='w-full'>
-                        <CardHeader>
-                            <h3 className='font-bold text-4xl'>Driver</h3>
-                            <CardDescription>{bus.busName}</CardDescription>
-                        </CardHeader>
-                        <CardContent className='flex flex-row gap-x-4'>
-                            <img src={bus.driver.image.url} alt='hello' width={80} height={80} className='rounded-full' />
-                            <div className='flex flex-col'>
-                                <h3>{bus.driver.name}</h3>
-                                <CardDescription>{bus.driver.phoneNumber}</CardDescription>
-                            </div>
-                        </CardContent>
-                    </Card>)}
-
-                </div>
-            </div>
-        </div>
-        <div className='flex flex-col space-y-2'>
-            <div className='w-full space-y-2'>
-                <h3 className='text-2xl font-bold '>Back Tracking</h3>
-                <div className='h-[600px] w-full relative'>
-                    {/* <MapBusBackTracking id={bus.tracker} /> */}
-                </div>
-            </div>
-            <div className='w-full space-y-2'>
-                <h3 className='text-2xl font-bold '>Speed Graph</h3>
-                <div className='h-[800px] w-full'>
-                    {/* <LineChart id={bus.tracker} /> */}
-                </div>
-            </div>
-        </div>
-    </div>)
-    }else {
-      <Loader/>
+    if (!bus) {
+        return <Loader />;
     }
-    
 
-}
+    return (
+        <div className="w-full h-full pb-5 space-y-8">
+            {/* Map Section */}
+            <div className="space-y-5">
+                <div className="h-full w-full relative">
+                    <MapBus />
+                </div>
 
-export default Bus
+                {/* Overview Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <CardOverview title="Bus" description="Bus Make" value={bus.make} Icon={<BsBusFront />} />
+                    <CardOverview title="Name" description="Bus Model" value={bus.model} Icon={<BsBusFront />} />
+                    <CardOverview title="Fuel" description="Fuel Type" value={bus.fuelType} Icon={<BsFillFuelPumpDieselFill />} />
+                    <CardOverview title="Status" description="Current Status" value={<Status active={bus.status} size={9} />} Icon={<TbBusStop size={20} />} />
+                </div>
+
+                {/* Additional Info */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <CardOverview title="Tracker ID" description="Bus Tracker ID" value="TRK123456" Icon={<BsBusFront />} />
+                    <CardOverview title="Fuel Level" description="Fuel Level (%)" value={`${bus.tracker.fuelLevel}%`} />
+                    <CardOverview title="Seats" description="Total Seats" value={bus.seat} />
+                </div>
+            </div>
+
+            {/* Vehicle Stats Section */}
+            <div className="pt-6 space-y-6">
+                <h2 className="text-3xl font-bold border-b-2">Vehicle Stats</h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <CardOverview title="HorsePower" description="HorsePower" value="230 HP" Icon={<FaTruck size={20} color="grey" />} />
+                    <CardOverview title="Engine Capacity" description="Engine Capacity (L)" value="6.7 L" />
+                    <CardOverview title="Engine Age" description="Lifespan of Engine" value="5 Years" />
+                    <CardOverview title="Emission Standard" description="Compliance" value="BS VI" />
+                </div>
+
+                <h3 className="text-xl font-semibold">Vehicle Raw Statistics</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <CardOverview title="Engine Temp" description="Engine Temperature" value={bus.tracker.engineTemp} />
+                    <CardOverview title="Coolant Temp" description="Coolant Temperature" value={bus.tracker.coolantTemp} />
+                    <CardOverview title="Transmission Temp" description="Transmission Temperature" value={bus.tracker.transmissionTemp} />
+                    <CardOverview title="Emission" description="Carbon Emission" value={bus.tracker.co2emission} />
+                </div>
+
+                {/* Advanced Engine Info */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <CardOverview title="Engine Status" description="Current Engine Status" value={bus.tracker.engineStatus ? 'ON' : 'OFF'} Icon={<FaTruck size={20} color="grey" />} />
+                    <CardOverview title="Engine RPM" description="RPM" value={bus.tracker.engineRpm} />
+                    <CardOverview title="Torque" description="Torque (Nm)" value={bus.tracker.torque} />
+                    <CardOverview title="Battery Level" description="Battery Level" value={bus.tracker.batteryLevel} />
+                    <CardOverview title="Voltage" description="Battery Voltage" value={bus.tracker.batteryVoltage} />
+                </div>
+            </div>
+
+            {/* Fuel Efficiency Section */}
+            <div className="pt-6 space-y-4">
+                <h2 className="text-3xl font-bold border-b-2">Fuel Efficiency</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Current Fuel Efficiency</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-4xl font-bold">{bus.fuelEfficiency} km/L</div>
+                            <Progress value={bus.fuelEfficiency * 10} className="mt-2" />
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Fuel Efficiency Trend</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <LineChart data={bus.fuelEfficiencyData}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="date" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Line type="monotone" dataKey="efficiency" stroke="#8884d8" activeDot={{ r: 8 }} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+
+            {/* Maintenance Section */}
+            <div className="pt-6 space-y-4">
+                <h2 className="text-3xl font-bold border-b-2">Maintenance</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Next Maintenance</CardTitle>
+                            <CardDescription>Upcoming Maintenance</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{bus.nextMaintenance}</div>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Maintenance History</CardTitle>
+                            <CardDescription>Recent Maintenance Records</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Date</TableHead>
+                                        <TableHead>Type</TableHead>
+                                        <TableHead>Cost ($)</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {bus.maintenanceHistory.map((entry, idx) => (
+                                        <TableRow key={idx}>
+                                            <TableCell>{entry.date}</TableCell>
+                                            <TableCell>{entry.type}</TableCell>
+                                            <TableCell>{entry.cost}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+
+            {/* Route Performance Section */}
+            <div className="pt-6 space-y-4">
+                <h2 className="text-3xl font-bold border-b-2">Route Performance</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>On-Time Percentage</CardTitle>
+                            <CardDescription>Overall Performance</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-4xl font-bold">{bus.routePerformance.onTimePercentage}%</div>
+                            <Progress value={bus.routePerformance.onTimePercentage} className="mt-2" />
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Average Delay</CardTitle>
+                            <CardDescription>Delays per Route</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-4xl font-bold">{bus.routePerformance.averageDelay} minutes</div>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Most Delayed Stop</CardTitle>
+                            <CardDescription>Top Delay Spot</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{bus.routePerformance.mostDelayedStop}</div>
+                        </CardContent>
+                    </Card>
+                </div>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Route Performance Trend</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <LineChart data={bus.routePerformanceData}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="date" />
+                                <YAxis />
+                                <Tooltip />
+                                <Line type="monotone" dataKey="onTime" stroke="#82ca9d" />
+                                <Line type="monotone" dataKey="delay" stroke="#ff7300" />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* Passenger Analytics Section (Placeholder) */}
+            <div className="pt-6 space-y-4">
+                <h2 className="text-3xl font-bold border-b-2">Passenger Analytics</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Average Occupancy</CardTitle>
+                            <CardDescription>Seat Utilization</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-4xl font-bold">{bus.passengerAnalytics.averageOccupancy}%</div>
+                            <Progress value={bus.passengerAnalytics.averageOccupancy} className="mt-2" />
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Peak Hours</CardTitle>
+                            <CardDescription>Passenger Rush Times</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{bus.passengerAnalytics.peakHours.join(' & ')}</div>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Total Passengers Today</CardTitle>
+                            <CardDescription>Real-Time Stats</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-4xl font-bold">{bus.passengerAnalytics.totalPassengersToday}</div>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default EnhancedBusDashboard;
